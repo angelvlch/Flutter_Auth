@@ -1,9 +1,4 @@
-import 'dart:ffi';
-import 'dart:ui';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -157,7 +152,7 @@ class _AuthPageState extends State<AuthPage> {
                           "Sign In",
                           textDirection: TextDirection.ltr,
                           style: TextStyle(
-                            color:  Colors.white,
+                            color: Colors.white,
                             fontSize: 25,
                             fontFamily: 'Roboto',
                           ),
