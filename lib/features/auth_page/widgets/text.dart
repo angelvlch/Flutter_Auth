@@ -15,7 +15,7 @@ ShaderMask text(String text) {
       bounds,
     ),
     child: Text(
-      text,
+      text + 'fd',
       style: const TextStyle(
         color: Colors.white,
         fontSize: 50,

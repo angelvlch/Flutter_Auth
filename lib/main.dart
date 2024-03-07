@@ -1,3 +1,4 @@
+import 'package:auth/features/registration_page/registration_page.dart';
 import 'package:flutter/material.dart';
 
 import 'features/auth_page/auth_page.dart';
@@ -11,7 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const AuthPage(),
+      routes: {
+        '/': (context) => const RegistrationPageScreen(),
+      },
     );
   }
 }
