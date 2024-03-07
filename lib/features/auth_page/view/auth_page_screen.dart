@@ -1,3 +1,4 @@
+import 'package:auth/features/auth_page/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class AuthPage extends StatefulWidget {
@@ -21,25 +22,7 @@ class _AuthPageState extends State<AuthPage> {
               children: [
                 Container(
                   margin: EdgeInsets.only(left: 20),
-                  child: ShaderMask(
-                    shaderCallback: (bounds) => LinearGradient(
-                      colors: [
-                        Color.fromARGB(255, 0, 113, 227),
-                        Color.fromARGB(255, 1, 169, 242),
-                      ],
-                    ).createShader(
-                      bounds,
-                    ),
-                    child: const Text(
-                      'Sign In',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 50,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ),
+                  child: text('Sign In'),
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 20),
