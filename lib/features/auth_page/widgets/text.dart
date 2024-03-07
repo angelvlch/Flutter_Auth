@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 ShaderMask text(String text) {
-  final color = text == 'Sign In'
-      ? [
-          const Color.fromARGB(255, 0, 113, 227),
-          const Color.fromARGB(255, 1, 169, 242),
-        ]
-      : [Colors.grey];
+  final color = [
+    const Color.fromARGB(255, 0, 113, 227),
+    const Color.fromARGB(255, 1, 169, 242),
+  ];
 
   return ShaderMask(
     shaderCallback: (bounds) => LinearGradient(
@@ -15,7 +13,7 @@ ShaderMask text(String text) {
       bounds,
     ),
     child: Text(
-      text + 'fd',
+      text,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 50,
