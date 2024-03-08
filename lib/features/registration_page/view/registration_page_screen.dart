@@ -35,6 +35,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         // color: Colors.green.shade200,
@@ -44,7 +45,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
           children: [
             Container(
               //color: Colors.red,
-              margin: EdgeInsets.only(top: 80),
+
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

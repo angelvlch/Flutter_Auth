@@ -1,14 +1,14 @@
 import 'package:auth/features/auth_page/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({super.key});
+class AuthPageScreen extends StatefulWidget {
+  const AuthPageScreen({super.key});
 
   @override
-  State<AuthPage> createState() => _AuthPageState();
+  State<AuthPageScreen> createState() => _AuthPageScreenState();
 }
 
-class _AuthPageState extends State<AuthPage> {
+class _AuthPageScreenState extends State<AuthPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +26,15 @@ class _AuthPageState extends State<AuthPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 20),
-                  child: text('Sign Up'),
+                  child: const Text(
+                    'Sign Up',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -41,6 +49,12 @@ class _AuthPageState extends State<AuthPage> {
                 child: textField("Password")),
             forgotPasswordLabel,
             bottonSignIn,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/registration');
+              },
+              child: Text('Sign Up'),
+            ),
           ],
         ),
       ),
