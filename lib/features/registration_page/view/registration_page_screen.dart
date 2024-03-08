@@ -38,92 +38,90 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
       appBar: AppBar(),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        // color: Colors.green.shade200,
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              //color: Colors.red,
-
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  labelSignIn,
-                  labelSignUp,
-                ],
+        child: Form(
+          child: Column(
+            children: [
+              Container(
+                alignment: Alignment.topLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    labelSignIn,
+                    labelSignUp,
+                  ],
+                ),
               ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(top: 92),
-            ),
-            TextField(
-              onChanged: (word) =>
-                  login = word, //сделать проверку на свободность логина
-              onTap: () {},
-              maxLines: 1,
-              decoration: textFieldDecoration("Login"),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 22,
+              const Padding(
+                padding: EdgeInsets.only(top: 92),
               ),
-            ),
-            TextField(
-              onChanged: (word) => firstPassword = word,
-              onTap: () {},
-              maxLines: 1,
-              decoration: textFieldDecoration("Password"),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 22,
+              TextField(
+                onChanged: (word) =>
+                    login = word, //сделать проверку на свободность логина
+                onTap: () {},
+                maxLines: 1,
+                decoration: textFieldDecoration("Login"),
               ),
-            ),
-            TextFormField(
-              validator: (value) {
-                if (value != "dddd") {
-                  return "Пароли жолжны совпадать";
-                }
-              },
-              onChanged: (word) {
-                secondPassword = word;
-                _formKey.currentState?.validate();
-              },
-              maxLines: 1,
-              decoration: textFieldDecoration("Verify password"),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(
-                top: 40,
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 22,
+                ),
               ),
-            ),
-            Center(
-              child: Container(
-                width: 300,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    elevation: 25,
-                    backgroundColor: Color.fromARGB(255, 122, 137, 255),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+              TextField(
+                onChanged: (word) => firstPassword = word,
+                onTap: () {},
+                maxLines: 1,
+                decoration: textFieldDecoration("Password"),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 22,
+                ),
+              ),
+              TextFormField(
+                validator: (value) {
+                  if (value != "dddd") {
+                    return "Пароли жолжны совпадать";
+                  }
+                },
+                onChanged: (word) {
+                  secondPassword = word;
+                  _formKey.currentState?.validate();
+                },
+                maxLines: 1,
+                decoration: textFieldDecoration("Verify password"),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(
+                  top: 40,
+                ),
+              ),
+              Center(
+                child: Container(
+                  width: 300,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 25,
+                      backgroundColor: Color.fromARGB(255, 122, 137, 255),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      shadowColor: Colors.black,
                     ),
-                    shadowColor: Colors.black,
-                  ),
-                  onPressed: () {},
-                  child: const Text(
-                    "Sign Up",
-                    textDirection: TextDirection.ltr,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 25,
-                      fontFamily: 'Roboto',
+                    onPressed: () {},
+                    child: const Text(
+                      "Sign Up",
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontFamily: 'Roboto',
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
