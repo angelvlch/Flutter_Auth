@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Container bottonSignIn(BuildContext context, GlobalKey<FormState> keyForm) {
   return Container(
-    child: ShaderMask(
+    child: ShaderMask( //blend 
       shaderCallback: (bounds) => LinearGradient(
         colors: [
           Color.fromARGB(255, 0, 113, 227),

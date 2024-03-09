@@ -1,6 +1,8 @@
+import 'package:auth/features/registration_page/widgets/buttonSignUp.dart';
 import 'package:auth/features/registration_page/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationPageScreen extends StatefulWidget {
   const RegistrationPageScreen({super.key});
@@ -10,8 +12,42 @@ class RegistrationPageScreen extends StatefulWidget {
 }
 
 class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
-  String? _login;
+  String? _username;
   String? _password;
+  Future<void> _saveLoginCredentials(String username, String password) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(username, password);
+  }
+
+  Future<void> _login() async {
+    final username = _username;
+    final password = _password;
+    final prefs = await SharedPreferences.getInstance();
+    // Проверка уникальности логина (здесь можно добавить свою логику)
+    //final savedUsername = await _getSavedUsername();
+    if (prefs.containsKey(username!)) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Ошибка'),
+          content: Text('Пользователь с таким логином уже существует.'),
+        ),
+      );
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Data accepted"),
+        backgroundColor: Colors.green[400],
+      ),
+    );
+
+    // Сохранение данных
+    await _saveLoginCredentials(username, password!);
+
+    // Переход на следующий экран (например, домашний экран)
+    Navigator.pop(context);
+  }
 
   InputDecoration textFieldDecoration(String text) {
     return InputDecoration(
@@ -56,7 +92,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
               ),
               TextFormField(
                 onChanged: (word) =>
-                    _login = word, //сделать проверку на свободность логина
+                    _username = word, //сделать проверку на свободность логина
                 validator: (value) =>
                     value!.isEmpty ? "Enter your login!" : null,
                 maxLines: 1,
@@ -97,7 +133,35 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                   top: 40,
                 ),
               ),
-              buttonSignUp(_formKey, context),
+              Center(
+                child: Container(
+                  width: 300,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      elevation: 25,
+                      backgroundColor: Color.fromRGBO(14, 183, 255, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      shadowColor: Colors.black,
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        _login();
+                      }
+                    },
+                    child: const Text(
+                      "Sign Up",
+                      textDirection: TextDirection.ltr,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 25,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
