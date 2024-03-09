@@ -97,40 +97,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                   top: 40,
                 ),
               ),
-              Center(
-                child: Container(
-                  width: 300,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 25,
-                      backgroundColor: Color.fromARGB(255, 122, 137, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      shadowColor: Colors.black,
-                    ),
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text("Data accepted"),
-                            backgroundColor: Colors.green[400],
-                          ),
-                        );
-                      }
-                    },
-                    child: const Text(
-                      "Sign Up",
-                      textDirection: TextDirection.ltr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontFamily: 'Roboto',
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              buttonSignUp(_formKey, context),
             ],
           ),
         ),

@@ -9,6 +9,8 @@ class AuthPageScreen extends StatefulWidget {
 }
 
 class _AuthPageScreenState extends State<AuthPageScreen> {
+  final _keyForm = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,31 +41,34 @@ class _AuthPageScreenState extends State<AuthPageScreen> {
               ],
             ),
             Padding(padding: EdgeInsets.only(top: 70)),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              child: textField("Login"),
+            Form(
+              key: _keyForm,
+              child: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    child: textField("Login"),
+                  ),
+                  Padding(padding: EdgeInsets.only(top: 25)),
+                  Container(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: textField("Password")),
+                  forgotPasswordLabel,
+                  bottonSignIn(context, _keyForm),
+                ],
+              ),
             ),
-            Padding(padding: EdgeInsets.only(top: 25)),
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: textField("Password")),
-            forgotPasswordLabel,
-            bottonSignIn,
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/registration');
-              },
-              child: Text('Sign Up'),
-            ),
+            Padding(padding: EdgeInsets.only(top: 10)),
+            bottonSignUp(context),
           ],
         ),
       ),
     );
   }
 
-  TextField textField(String text) {
-    return TextField(
-      onTap: () {},
+  TextFormField textField(String text) {
+    return TextFormField(
+      validator: (value) => value!.isEmpty ? "Enter your $text!" : null,
       maxLines: 1,
       decoration: InputDecoration(
         hintText: text,
