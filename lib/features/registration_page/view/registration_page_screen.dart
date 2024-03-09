@@ -10,10 +10,8 @@ class RegistrationPageScreen extends StatefulWidget {
 }
 
 class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
-  String? login;
-  String? firstPassword;
-  String? secondPassword;
-  String? password;
+  String? _login;
+  String? _password;
 
   InputDecoration textFieldDecoration(String text) {
     return InputDecoration(
@@ -35,10 +33,12 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Form(
+          key: _formKey,
           child: Column(
             children: [
               Container(
@@ -54,39 +54,41 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
               const Padding(
                 padding: EdgeInsets.only(top: 92),
               ),
-              TextField(
+              TextFormField(
                 onChanged: (word) =>
-                    login = word, //сделать проверку на свободность логина
-                onTap: () {},
+                    _login = word, //сделать проверку на свободность логина
+                validator: (value) =>
+                    value!.isEmpty ? "Enter your login!" : null,
                 maxLines: 1,
                 decoration: textFieldDecoration("Login"),
               ),
               const Padding(
                 padding: EdgeInsets.only(
-                  top: 22,
+                  top: 10,
                 ),
               ),
-              TextField(
-                onChanged: (word) => firstPassword = word,
-                onTap: () {},
+              TextFormField(
+                onChanged: (word) => _password = word,
+                validator: (value) =>
+                    value!.isEmpty ? "Enter your password!" : null,
                 maxLines: 1,
                 decoration: textFieldDecoration("Password"),
               ),
               const Padding(
                 padding: EdgeInsets.only(
-                  top: 22,
+                  top: 10,
                 ),
               ),
               TextFormField(
                 validator: (value) {
-                  if (value != "dddd") {
-                    return "Пароли жолжны совпадать";
+                  if (value!.isEmpty) {
+                    return "Enter your password!";
+                  }
+                  if (value != _password) {
+                    return "Password mismatch";
                   }
                 },
-                onChanged: (word) {
-                  secondPassword = word;
-                  _formKey.currentState?.validate();
-                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 maxLines: 1,
                 decoration: textFieldDecoration("Verify password"),
               ),
@@ -107,7 +109,16 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                       ),
                       shadowColor: Colors.black,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("Data accepted"),
+                            backgroundColor: Colors.green[400],
+                          ),
+                        );
+                      }
+                    },
                     child: const Text(
                       "Sign Up",
                       textDirection: TextDirection.ltr,
