@@ -90,13 +90,13 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
     if (value!.isEmpty) {
       return "Enter your login!";
     }
-    String p = "/^[a-z0-9_-]{6,10}\$/";
+    String p = "^[A-Za-z0-9]+\$";
 
     RegExp s = RegExp(p);
     if (!s.hasMatch(value)) {
-      return "The login must contain only Latin letters and numbers";
+      return "The login must contain only A-Z,a-z,0-9";
     }
-    if (value.length > 10 && value.length < 6) {
+    if (value.length > 10 || value.length < 6) {
       return "The login must contain from 6 to 10 characters!";
     }
   }
