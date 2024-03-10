@@ -14,6 +14,7 @@ class RegistrationPageScreen extends StatefulWidget {
 class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
   String? _username;
   String? _password;
+  final _formKey = GlobalKey<FormState>();
   Future<void> _saveLoginCredentials(String username, String password) async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString(username, password);
@@ -65,7 +66,41 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
     );
   }
 
-  final _formKey = GlobalKey<FormState>();
+  ButtonStyle _buttonStyle() {
+    return ElevatedButton.styleFrom(
+      elevation: 25,
+      backgroundColor: Color.fromRGBO(14, 183, 255, 1),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20.0),
+      ),
+      shadowColor: Colors.black,
+    );
+  }
+
+  dynamic _checkVerifyPassword(String? value) {
+    if (value!.isEmpty) {
+      return "Enter your login";
+    }
+    if (value != _password) {
+      return "Password mismatch!";
+    }
+  }
+
+  dynamic _checkLogin(String? value) {
+    if (value!.isEmpty) {
+      return "Enter your login!";
+    }
+    String p = "/^[a-z0-9_-]{6,10}\$/";
+
+    RegExp s = RegExp(p);
+    if (!s.hasMatch(value)) {
+      return "The login must contain only Latin letters and numbers";
+    }
+    if (value.length > 10 && value.length < 6) {
+      return "The login must contain from 6 to 10 characters!";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,10 +126,9 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                 padding: EdgeInsets.only(top: 92),
               ),
               TextFormField(
-                onChanged: (word) =>
-                    _username = word, //сделать проверку на свободность логина
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your login!" : null,
+                onChanged: (word) => _username = word,
+                validator: (value) => _checkLogin(value), //lenght validation
+
                 maxLines: 1,
                 decoration: textFieldDecoration("Login"),
               ),
@@ -116,14 +150,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                 ),
               ),
               TextFormField(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return "Enter your password!";
-                  }
-                  if (value != _password) {
-                    return "Password mismatch";
-                  }
-                },
+                validator: (value) => _checkVerifyPassword(value),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 maxLines: 1,
                 decoration: textFieldDecoration("Verify password"),
@@ -137,14 +164,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                 child: Container(
                   width: 300,
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 25,
-                      backgroundColor: Color.fromRGBO(14, 183, 255, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      shadowColor: Colors.black,
-                    ),
+                    style: _buttonStyle(),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         _login();
