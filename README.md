@@ -2,13 +2,13 @@
 
 This application contains a login screen and registration of new users using SharedPrefernces
 
-## Структура файла
+## File structure
 
 - `main.py`: Main project file.
 - `feature/`: Folder with screens.
 
 
-## Описание проекта
+## Project Description
 
 The project has on the registration page:
 - fields with validation for entering login, password, confirmation of password;
@@ -20,7 +20,7 @@ The project has on the auth page:
 - button "Sign In";
 - button to go to the registration window
 
-## Установка
+## Installing
 
 1. Clone repository
 2. Instal Flutter
