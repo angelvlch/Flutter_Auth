@@ -1,8 +1,8 @@
-import 'package:auth/features/registration_page/widgets/buttonSignUp.dart';
-import 'package:auth/features/registration_page/widgets/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../widgets/widgets.dart';
 
 class RegistrationPageScreen extends StatefulWidget {
   const RegistrationPageScreen({super.key});
@@ -20,18 +20,17 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
     prefs.setString(username, password);
   }
 
-  Future<void> _login() async {
+  Future<void> _checkData() async {
     final username = _username;
     final password = _password;
     final prefs = await SharedPreferences.getInstance();
-    // Проверка уникальности логина (здесь можно добавить свою логику)
-    //final savedUsername = await _getSavedUsername();
+
     if (prefs.containsKey(username!)) {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('Ошибка'),
-          content: Text('Пользователь с таким логином уже существует.'),
+          title: Text('Error'),
+          content: Text('User with the same login already exists'),
         ),
       );
       return;
@@ -43,11 +42,9 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
       ),
     );
 
-    // Сохранение данных
     await _saveLoginCredentials(username, password!);
 
-    // Переход на следующий экран (например, домашний экран)
-    Navigator.pop(context);
+    Navigator.pushReplacementNamed(context, '/');
   }
 
   InputDecoration textFieldDecoration(String text) {
@@ -79,7 +76,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
 
   dynamic _checkVerifyPassword(String? value) {
     if (value!.isEmpty) {
-      return "Enter your login";
+      return "Enter your password!+";
     }
     if (value != _password) {
       return "Password mismatch!";
@@ -127,8 +124,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
               ),
               TextFormField(
                 onChanged: (word) => _username = word,
-                validator: (value) => _checkLogin(value), //lenght validation
-
+                validator: (value) => _checkLogin(value),
                 maxLines: 1,
                 decoration: textFieldDecoration("Login"),
               ),
@@ -138,6 +134,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                 ),
               ),
               TextFormField(
+                obscureText: true,
                 onChanged: (word) => _password = word,
                 validator: (value) =>
                     value!.isEmpty ? "Enter your password!" : null,
@@ -150,6 +147,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                 ),
               ),
               TextFormField(
+                obscureText: true,
                 validator: (value) => _checkVerifyPassword(value),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 maxLines: 1,
@@ -167,7 +165,7 @@ class _RegistrationPageScreenState extends State<RegistrationPageScreen> {
                     style: _buttonStyle(),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        _login();
+                        _checkData();
                       }
                     },
                     child: const Text(

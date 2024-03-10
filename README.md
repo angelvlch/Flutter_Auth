@@ -1,16 +1,32 @@
-# auth
+# Auth app
 
-A new Flutter project.
+This application contains a login screen and registration of new users using SharedPrefernces
 
-## Getting Started
+## Структура файла
 
-This project is a starting point for a Flutter application.
+- `main.py`: Main project file.
+- `feature/`: Folder with screens.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Описание проекта
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The project has on the registration page:
+- fields with validation for entering login, password, confirmation of password;
+- when entering a login, a check is made to see if there is already the same login in SharedPrefernces;
+- button "Sign Up";
+
+The project has on the auth page:
+- fields with validation for entering login and password;
+- button "Sign In";
+- button to go to the registration window
+
+## Установка
+
+1. Clone repository
+2. Instal Flutter
+3. Install [SharedPreferences](https://pub.dev/packages/shared_preferences)
+
+## Usage
+
+![Auth Screen](image.png) 
+![Registration screen](image-1.png)

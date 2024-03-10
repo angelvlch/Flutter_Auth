@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:auth/features/auth_page/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPageScreen extends StatefulWidget {
   const AuthPageScreen({super.key});
@@ -10,6 +13,33 @@ class AuthPageScreen extends StatefulWidget {
 
 class _AuthPageScreenState extends State<AuthPageScreen> {
   final _keyForm = GlobalKey<FormState>();
+  String? _login, _password;
+
+  Future<void> _checkData() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (!prefs.containsKey(_login!)) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error"),
+          content: Text("User with this login not found"),
+        ),
+      );
+      return;
+    }
+    if (prefs.getString(_login!) != _password) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text("Error"),
+          content: Text("Incorrect password"),
+        ),
+      );
+      return;
+    }
+    Navigator.pushReplacementNamed(context, '/page');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,12 +84,59 @@ class _AuthPageScreenState extends State<AuthPageScreen> {
                       padding: EdgeInsets.symmetric(horizontal: 20),
                       child: textField("Password")),
                   forgotPasswordLabel,
-                  bottonSignIn(context, _keyForm),
+                  Center(
+                    child: Container(
+                      width: 300,
+                      padding: EdgeInsets.only(top: 40),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 25,
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          shadowColor: Colors.black,
+                        ),
+                        onPressed: () {
+                          if (_keyForm.currentState!.validate()) {
+                            _checkData();
+                          }
+                        },
+                        child: const Text(
+                          "Sign In",
+                          textDirection: TextDirection.ltr,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontFamily: 'Roboto',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
             Padding(padding: EdgeInsets.only(top: 10)),
-            bottonSignUp(context),
+            Center(
+              child: Container(
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Нет аккаунта? "),
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, '/registration'),
+                      child: const Text(
+                        "Зарегистрироваться.",
+                        style: TextStyle(color: Colors.blueAccent),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -68,7 +145,10 @@ class _AuthPageScreenState extends State<AuthPageScreen> {
 
   TextFormField textField(String text) {
     return TextFormField(
+      obscureText: text == 'Login' ? false : true,
       validator: (value) => value!.isEmpty ? "Enter your $text!" : null,
+      onChanged: (value) =>
+          text == 'Login' ? _login = value : _password = value,
       maxLines: 1,
       decoration: InputDecoration(
         hintText: text,
@@ -78,8 +158,6 @@ class _AuthPageScreenState extends State<AuthPageScreen> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(30),
-
-          // gapPadding: 4,
         ),
         contentPadding: EdgeInsets.only(left: 30),
       ),
